@@ -1,0 +1,10 @@
+{
+  "rewrites": [
+    { "source": "/((?!api/.*).*)", "destination": "/index.html" }
+  ],
+  "crons": [
+    { "path": "/api/cron/checkin-reminder", "schedule": "30 7 * * *" },
+    { "path": "/api/cron/huiswerk-reminder", "schedule": "0 18 * * *" },
+    { "path": "/api/cron/eval-6week-trigger", "schedule": "0 8 * * *" }
+  ]
+}
