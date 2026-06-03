@@ -36,9 +36,9 @@ Snapshot van waar we stonden toen deze repo voor het eerst op GitHub kwam.
 - `public/manifest.webmanifest`
 - SVG-icon (placeholder; PNG's komen later)
 
-### GymOps cron (apárte repo)
-- `~/Documents/antigravity/Gymops/app/api/cron/unlock-provision-members/route.ts` (geschreven, **nog niet gepushed naar Gymops main**)
-- `vercel.json` cron-entry toegevoegd in dezelfde repo (ook nog niet gepushed)
+### GymOps cron (apárte repo `opsdashboard`)
+- `app/api/cron/unlock-provision-members/route.ts` — gecommit op `main` (zie commit `feat(unlock-provision): add provisioning cron route (inactive by default)`)
+- `vercel.json` cron-entry — **bewust NIET toegevoegd**. Activeren vereist handmatige edit + env-vars + Sheet-tab. Zie [SETUP.md → GymOps cron activeren](./SETUP.md#gymops-cron-activeren).
 
 ---
 
@@ -52,7 +52,7 @@ Zie [SETUP.md](./SETUP.md) voor instructies per stap.
 4. **GHL templates** maken (login-mail + welkomstmail Unlock-branded) + 2 inbound webhook-URLs
 5. **Vercel project** aanmaken voor Unlock-app, env-vars, deploy
 6. **DNS** `app.unlockmotion.nl` → Vercel
-7. **GymOps wijzigingen** committen + pushen naar Gymops main, env-vars in Gymops Vercel, Sheet-tab `Unlock_Provisioned` aanmaken
+7. **GymOps cron activeren**: env-vars in Gymops Vercel + Sheet-tab `Unlock_Provisioned` aanmaken + `vercel.json` cron-entry toevoegen (route staat al op main, draait nog niet)
 8. **Supabase Database Webhooks** instellen voor booking-created + eval-published
 9. **Yari seeden** als coach (SQL update)
 10. **iOS PNG-icons** maken (192/512) en aan manifest/index.html toevoegen

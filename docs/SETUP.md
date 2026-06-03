@@ -123,16 +123,27 @@ Open weer `http://localhost:3000/login`. Vraag een magic-link aan voor je email.
 
 ### GymOps cron activeren
 
-De cron-route staat in `~/Documents/antigravity/Gymops/app/api/cron/unlock-provision-members/route.ts` (apárte repo, niet hier).
+De cron-route is **al gecommit** in de Gymops repo (`opsdashboard`, `~/Documents/antigravity/Gymops`) op bestand `app/api/cron/unlock-provision-members/route.ts`. Hij draait alleen nog niet automatisch — `vercel.json` heeft bewust géén schedule-entry.
 
-1. Push die wijzigingen naar Gymops main
-2. Voeg in Gymops Vercel env-vars toe:
+Volg deze stappen om 'm te activeren:
+
+1. **Env-vars** in Gymops Vercel project toevoegen:
    ```
    UNLOCK_APP_URL=https://app.unlockmotion.nl
    UNLOCK_WEBHOOK_SECRET=<zelfde lange string als in deze repo>
    ```
-3. Maak in de Google Sheet (zelfde sheet als de andere Gymops-data) een tab `Unlock_Provisioned` met headers: `Email | Registratienummer | ProvisionedAt | Result`
-4. Test droog: `curl "https://gymops-...vercel.app/api/cron/unlock-provision-members?dryRun=true" -H "Authorization: Bearer $CRON_SECRET"` — bekijk welke leden gevonden zouden worden zonder echt te POST'en.
+2. **Google Sheet**: maak een nieuwe tab `Unlock_Provisioned` met headers `Email | Registratienummer | ProvisionedAt | Result` in dezelfde sheet als de andere Gymops-data.
+3. **Droog testen** vanaf de Gymops production URL:
+   ```sh
+   curl "https://<gymops-url>/api/cron/unlock-provision-members?dryRun=true" \
+        -H "Authorization: Bearer $CRON_SECRET"
+   ```
+   Output toont welke leden hij zou provisionen, zonder daadwerkelijk te POST'en.
+4. **Cron activeren** in Gymops `vercel.json` — voeg toe aan `crons` array:
+   ```json
+   { "path": "/api/cron/unlock-provision-members", "schedule": "0 6 * * *" }
+   ```
+   Commit + push → Vercel begint dagelijks om 06:00 te draaien.
 
 ### Supabase Database Webhooks
 
